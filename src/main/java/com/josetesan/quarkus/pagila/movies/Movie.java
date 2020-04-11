@@ -1,11 +1,14 @@
 package com.josetesan.quarkus.pagila.movies;
 
+import com.josetesan.quarkus.pagila.actors.Actor;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "film")
@@ -20,6 +23,9 @@ public class Movie extends PanacheEntityBase {
     private Integer releaseYear;
     @Column(name="length")
     private Integer length;
+
+    @ManyToOne
+    public List<Actor> actorList;
 
     public Movie() {
         super();
@@ -62,5 +68,13 @@ public class Movie extends PanacheEntityBase {
 
     public void setLength(Integer length) {
         this.length = length;
+    }
+
+    public List<Actor> getActorList() {
+        return actorList;
+    }
+
+    public void setActorList(List<Actor> actorList) {
+        this.actorList = actorList;
     }
 }
