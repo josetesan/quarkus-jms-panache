@@ -5,17 +5,25 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
+import java.util.Set;
 
+/**
+ * @See https://quarkus.io/guides/hibernate-orm-panache
+ */
 @Entity
 @Table(name = "actor")
 public class Actor extends PanacheEntityBase {
 
     @Id
     @Column(name="actor_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "actor_actor_id_seq")
     private Long actorId;
     @Column(name="first_name")
     private String firstName;
@@ -23,11 +31,17 @@ public class Actor extends PanacheEntityBase {
     private String lastName;
 
     @OneToMany
-    public List<Movie> movieList;
+    @JoinTable(
+        name = "film_actor",
+        joinColumns = {@JoinColumn(name = "actor_id")},
+        inverseJoinColumns = @JoinColumn(name="film_id")
+        )
+    public Set<Movie> movieList;
 
     public Actor() {
         super();
     }
+
 
     public Actor(Long actorId, String firstName, String lastName) {
         this.actorId = actorId;
@@ -35,35 +49,23 @@ public class Actor extends PanacheEntityBase {
         this.lastName = lastName;
     }
 
-    public Long getActorId() {
-        return actorId;
-    }
-
-    public void setActorId(Long actorId) {
-        this.actorId = actorId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public List<Movie> getMovieList() {
+    public String getName() {
+        return String.join(" ", firstName,lastName);
+    }
+
+    public Set<Movie> getMovieList() {
         return movieList;
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.movieList = movieList;
+    public Long getActorId() {
+        return actorId;
     }
 }

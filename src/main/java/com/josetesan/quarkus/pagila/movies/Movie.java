@@ -24,8 +24,6 @@ public class Movie extends PanacheEntityBase {
     @Column(name="length")
     private Integer length;
 
-    @ManyToOne
-    public List<Actor> actorList;
 
     public Movie() {
         super();
@@ -36,14 +34,6 @@ public class Movie extends PanacheEntityBase {
         this.title = title;
         this.releaseYear = releaseYear;
         this.length = length;
-    }
-
-    public Long getFilmId() {
-        return filmId;
-    }
-
-    public void setFilmId(Long filmId) {
-        this.filmId = filmId;
     }
 
     public String getTitle() {
@@ -70,11 +60,5 @@ public class Movie extends PanacheEntityBase {
         this.length = length;
     }
 
-    public List<Actor> getActorList() {
-        return actorList;
-    }
 
-    public void setActorList(List<Actor> actorList) {
-        this.actorList = actorList;
-    }
 }
